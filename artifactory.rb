@@ -60,10 +60,14 @@ class ArtifactoryRoot < Entry
   is_singleton
   parent_of 'RepositoryType'
   metadata_schema METADATA_SCHEMA
-  # TODO: Flesh this out later
   description <<~DESC
     A plugin for managing artifactory. It parses credentials from Jfrog's config file,
     which is typically located at ~/.jfrog/jfrog-cli.conf.
+
+    The artifactory plugin organizes your repositories by their repository type. Currently
+    only 'local', 'remote' and 'virtual' are supported. The plugin lets you view and delete
+    artifacts (and repositories), and filter them using 'find' on things like their mtime
+    (last modified time) or on an artifact's item properties.
   DESC
 
   def init(_config)
@@ -126,6 +130,9 @@ class Repository < Entry
   label 'repository'
   parent_of 'FolderArtifact', 'FileArtifact'
   metadata_schema METADATA_SCHEMA
+  description <<~DESC
+    This is a repository.
+  DESC
 
   def initialize(repo_json)
     @name = repo_json['key']
